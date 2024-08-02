@@ -16,7 +16,13 @@ fun main() {
 
         }
         return answer.joinToString(separator = "")
+
     }
+
+    // More short and suitable solution
+/*  fun formatWithThousandSeparators(number: Long): String {
+      return number.toString().reversed().chunked(3).joinToString(".").reversed()
+  }*/
 
 
 
