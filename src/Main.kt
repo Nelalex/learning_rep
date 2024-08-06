@@ -1,24 +1,17 @@
 
+// Leetcode №188 Pascal's Triangle
 fun main() {
-    println(minNumber(intArrayOf(0,0,2,2), intArrayOf(1,1,3,3)))
-}
-
-// https://leetcode.com/problems/form-smallest-number-from-two-digit-arrays/description/
-// I know that it's not effective not to store min values and always invoke methods, its just for practise
-fun minNumber(nums1: IntArray, nums2: IntArray): Int {
-    val minCommon = (nums1 intersect nums2.toSet())
-    if (minCommon.isNotEmpty())
-        return minCommon.min()
-    val minDigit = if (nums1.min() > nums2.min()) nums2.min() else nums1.min()
-    return if (minDigit == nums2.min())
-            (nums2.min() * 10 + nums1.min())
-    else
-            (nums1.min() * 10 + nums2.min())
+    generate(3)
 
 }
-
-
-
-
+fun generate(numRows: Int): List<List<Int>> {
+    val triangle = MutableList(numRows) { MutableList(it + 1) { 0 } }
+    for (i in 0 until numRows) {
+        for (j in 0..i) {
+            triangle[i][j] = if (j == 0 || j == i) 1 else triangle[i -1][j - 1] + triangle[i - 1][j]
+        }
+    }
+    return triangle
+}
 
 
