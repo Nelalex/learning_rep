@@ -1,36 +1,19 @@
 // Leetcode №188 Pascal's Triangle
 fun main() {
-    val nestedList: List<List<String>> = listOf(
-        listOf("phone","blue","pixel")
-
-    )
-    println(countMatches(nestedList, ruleKey = "color", ruleValue = "blue"))
+    println(sumIndicesWithKSetBits(listOf(5,10,1,5,2), 1))
 }
 
 
-fun countMatches(items: List<List<String>>, ruleKey: String, ruleValue: String): Int {
-    var count = 0
-    when (ruleKey) {
-        "type" -> {
-            for (i in 0 until  items.size) {
-                if (items[i][0] == ruleValue)
-                    count++
-            }
-        }
-        "color" -> {
-            for (i in 0 until  items.size) {
-                if (items[i][1] == ruleValue)
-                    count++
-            }
-        }
-        "name" -> {
-            for (i in 0 until  items.size) {
-                if (items[i][2] == ruleValue)
-                    count++
-            }
+fun sumIndicesWithKSetBits(nums: List<Int>, k: Int): Int {
+    var sum = 0
+    for (i in 0 until nums.size) {
+        val j = i.toString(2).filter { it == '1' }.length
+        if (j == k) {
+           sum += nums[i]
         }
     }
-    return count
+    return sum
 }
+
 
 
