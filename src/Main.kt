@@ -1,20 +1,36 @@
 // Leetcode №188 Pascal's Triangle
 fun main() {
-    println(differenceOfSums(10, 3).toString())
+    val nestedList: List<List<String>> = listOf(
+        listOf("phone","blue","pixel")
+
+    )
+    println(countMatches(nestedList, ruleKey = "color", ruleValue = "blue"))
 }
 
 
-fun differenceOfSums(n: Int, m: Int): Int {
-    var sum1 = 0
-    var sum2 = 0
-    for (i in 1 .. n) {
-        if (i % m == 0) {
-            sum2 += i
-        } else {
-            sum1 += i
+fun countMatches(items: List<List<String>>, ruleKey: String, ruleValue: String): Int {
+    var count = 0
+    when (ruleKey) {
+        "type" -> {
+            for (i in 0 until  items.size) {
+                if (items[i][0] == ruleValue)
+                    count++
+            }
+        }
+        "color" -> {
+            for (i in 0 until  items.size) {
+                if (items[i][1] == ruleValue)
+                    count++
+            }
+        }
+        "name" -> {
+            for (i in 0 until  items.size) {
+                if (items[i][2] == ruleValue)
+                    count++
+            }
         }
     }
-    return  sum1 - sum2
+    return count
 }
 
 
