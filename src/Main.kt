@@ -1,19 +1,17 @@
-// Leetcode №188 Pascal's Triangle
+
+
+//206. Reverse Linked List not done
+
+
 fun main() {
-    println(sumIndicesWithKSetBits(listOf(5,10,1,5,2), 1))
+    println(sumOfTheDigitsOfHarshadNumber(333))
+
 }
 
-
-fun sumIndicesWithKSetBits(nums: List<Int>, k: Int): Int {
-    var sum = 0
-    for (i in 0 until nums.size) {
-        val j = i.toString(2).filter { it == '1' }.length
-        if (j == k) {
-           sum += nums[i]
-        }
-    }
-    return sum
+fun sumOfTheDigitsOfHarshadNumber(x: Int): Int {
+    val y = x.toString().map { it.digitToInt() }.sum()
+    if (x % y == 0)
+        return y
+    else
+        return  -1
 }
-
-
-
