@@ -2,54 +2,88 @@ import kotlin.math.absoluteValue
 
 
 fun main() {
-    println(fractionAddition("-5/2+10/3+7/9"))
+
+    // интерфейс реализующий 2 функции ускорение за определенное время и отчет о транспорте
+    lateinit var myTransoprt: Engine
+
+
+    // Создали 3 вида транспорта
+    val myBicycle = Bicycle()
+    val myCar = Car()
+    val myScooter = Scooter()
+
+
+    // Мы будем выполнять действия для  велосипеда путем присвоения части обьекта которое является переопределнием интерфейса
+    myTransoprt = myBicycle
+    println(myTransoprt.speepUP(startSpeed = 0, time = 10))
+
+    myTransoprt = myScooter
+    println(myTransoprt.speepUP(startSpeed = 0, time = 10))
+
+    myTransoprt = myCar
+    println(myTransoprt.speepUP(startSpeed = 0, time = 10))
 
 
 
 }
 
 
-fun fractionAddition(expression: String): String {
-    val chislitel: MutableList<Int> = emptyList<Int>().toMutableList()
-    val znamenatel: MutableList<Int> = emptyList<Int>().toMutableList()
-    val newZnamenatel: MutableList<Int> = emptyList<Int>().toMutableList()
 
-    for (i in expression.indices) {
-        if (expression[i] == '/') {
+class Bicycle(): Engine  {
+    private val acceleration = 5
 
-            if ( (i - 2) >= 0 && expression[i - 2] == '-')
-                chislitel.add(-expression[i - 1].digitToInt())
-            else
-                chislitel.add(expression[i - 1].digitToInt())
-            znamenatel.add(expression[i + 1].digitToInt())
-        }
+    override fun speepUP(startSpeed: Int, time: Int): Int {
+        this.otchet()
+        return startSpeed + time * acceleration
+
     }
-    newZnamenatel.addAll(znamenatel)
-    for (i in chislitel.indices) {
-        for (j in znamenatel.indices) {
-            if (i != j) {
-                chislitel[i] *= znamenatel[j]
-                newZnamenatel[i] *= znamenatel[j]
-            }
-        }
-    }
-    var otvetChislitel:Int = chislitel.sum()
-    var otvetZnametanel = newZnamenatel[0]
-    val nod = gcd(otvetChislitel,otvetZnametanel)
-    if (nod != 0) {
-        otvetChislitel /= nod
-        otvetZnametanel /= nod
-    }
-    var otvet = ""
-    if (otvetChislitel < 0 || otvetZnametanel < 0)
-        otvet += "-"
-    otvet  += "${otvetChislitel.absoluteValue}/${otvetZnametanel.absoluteValue}"
 
+}
 
-    return otvet
+class Car() : Engine{
+
+    private val acceleration = 30
+    private val refueltime = 1
+
+    override fun speepUP(startSpeed: Int, time: Int): Int {
+        this.otchet()
+        return startSpeed + (time - refueltime) * acceleration
+    }
+
+}
+
+class Scooter() : Engine {
+
+    private val acceleration = 10
+    override fun speepUP(startSpeed: Int, time: Int): Int {
+        this.otchet()
+        return startSpeed + time * acceleration
+    }
+
 }
 
 
-fun gcd(a: Int, b: Int): Int {
-    return if (b == 0) a else gcd(b, a % b)
+interface Engine {
+    fun speepUP(startSpeed: Int, time: Int) : Int
+    fun otchet() {
+        println("its a ${this.javaClass.name}")
+    }
+
 }
+
+//Разберём код подробнее:
+//Интерфейс Engine:
+//Определяет два метода: speedUP() для расчета скорости и otchet() для вывода информации о транспортном средстве.
+//Метод otchet() имеет default реализацию, которая выводит имя класса.
+//Классы Bicycle, Car, Scooter:
+//Реализуют интерфейс Engine.
+//Каждый класс имеет свою реализацию speedUP() с разными значениями ускорения и дополнительной логикой (например, время заправки для Car).
+//Классы наследуют default реализацию otchet() из интерфейса.
+//Функция main():
+//Создает объекты разных транспортных средств.
+//Использует lateinit var myTransport: Engine для хранения ссылки на объект, реализующий Engine.
+//Присваивает myTransport разные объекты и вызывает speedUP(), демонстрируя полиморфизм. Что хорошо:
+//Четкая структура: Код хорошо структурирован, легко читается и понятен.
+//Использование интерфейса: Интерфейс Engine обеспечивает абстракцию и позволяет работать с разными типами транспорта единообразно.
+//Полиморфизм: Вызов myTransport.speedUP() демонстрирует, как один и тот же метод может иметь разное поведение в зависимости от типа объекта.
+//Default реализация: Метод otchet() с default реализацией показывает, как можно предоставлять базовую функциональность в интерфейсе.
